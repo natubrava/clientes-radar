@@ -1,10 +1,10 @@
 // Clientes e Compras Radar (online). Telas simples, sem build. Os dados vêm das funções radar_* do Supabase,
 // que só respondem para quem é da equipe do Giftback Acker (mesmo login, mesmo endereço natubrava.github.io).
-import { SUPABASE_URL, SUPABASE_CHAVE_PUBLICA, SUPABASE_JS } from './config.js?v=20261112131519';
+import { SUPABASE_URL, SUPABASE_CHAVE_PUBLICA, SUPABASE_JS } from './config.js?v=20261112134923';
 import {
   formatarTelefone, linkWhatsapp, reais, dataBR, haDias, quantidade, mensagemRecompra, csv, pedidoDaUrl,
   filtrarCompradores, numeroWhatsapp,
-} from './util.js?v=20261112131519';
+} from './util.js?v=20261112134923';
 
 const tela = document.getElementById('tela');
 const situacaoEl = document.getElementById('situacao');
