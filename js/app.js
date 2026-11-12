@@ -1,10 +1,10 @@
 // Clientes e Compras Radar (online). Telas simples, sem build. Os dados vêm das funções radar_* do Supabase,
 // que só respondem para quem é da equipe do Giftback Acker (mesmo login, mesmo endereço natubrava.github.io).
-import { SUPABASE_URL, SUPABASE_CHAVE_PUBLICA, SUPABASE_JS } from './config.js?v=20261112112336';
+import { SUPABASE_URL, SUPABASE_CHAVE_PUBLICA, SUPABASE_JS } from './config.js?v=20261112131519';
 import {
   formatarTelefone, linkWhatsapp, reais, dataBR, haDias, quantidade, mensagemRecompra, csv, pedidoDaUrl,
   filtrarCompradores, numeroWhatsapp,
-} from './util.js?v=20261112112336';
+} from './util.js?v=20261112131519';
 
 const tela = document.getElementById('tela');
 const situacaoEl = document.getElementById('situacao');
@@ -126,6 +126,11 @@ async function abrirPorTelefone(tel, nome) {
   // Não achou pelo celular: tenta pelo nome
   let porNome = [];
   if (nome) { try { porNome = await rpc('radar_buscar_clientes', { p_q: nome, p_lim: 20 }); } catch { /* segue */ } }
+  // Nome completo não achou (no Uniplus pode estar escrito diferente): tenta só o primeiro nome
+  const primeiro = (nome || '').trim().split(/\s+/)[0] || '';
+  if (!porNome.length && primeiro.length >= 3 && primeiro !== nome.trim()) {
+    try { porNome = await rpc('radar_buscar_clientes', { p_q: primeiro, p_lim: 30 }); } catch { /* segue */ }
+  }
   trocar(tela, h('section', {},
     h('h1', {}, 'Celular não encontrado no Uniplus'),
     h('p', {}, `O celular ${formatarTelefone(tel)} não está no cadastro de clientes do Uniplus (ou está escrito diferente lá).`),
